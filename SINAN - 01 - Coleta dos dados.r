@@ -41,3 +41,14 @@ if (length(viol_files) > 0) {
 }
 
 message("Processo concluído.")
+
+# Info VIOL preliminar
+url_prelim <- "ftp://ftp.datasus.gov.br/dissemin/publicos/SINAN/DADOS/PRELIM/"
+info_prelim <-  getURL(url_prelim,
+   ftp.use.epsv = FALSE, 
+   dirlistonly = TRUE
+  )
+
+prelim_file <-  unlist(str_split(info_prelim, "\r\n"))
+arq_prelim <- prelim_file[str_detect(prelim_file, "^VIOL")]
+download.file(paste0(url_prelim, arq_prelim), destfile = paste0(output_dir, arq_prelim), mode = "wb")
